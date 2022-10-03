@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="./dist/output.css">
+    <script src="./dist/js/script.js" defer></script>
+
+    <title>todos</title>
+</head>
+
+<body class="">
+    <div class="flex flex-col items-center justify-center max-w-xl mx-auto my-0 h-[100vh]">
+        <h1 class="text-8xl pb-10 font-permanent">todos</h1>
+        <div class="flex flex-col items-center gap-3 pb-10 " id="logoBox">
+            <a href="https://www.flaticon.com/free-icons/list" title="list icons"><img src="./dist/todo.png"
+                    alt="todo list" class="w-20 h-auto"></a>
+            <h4 class="text-xl font-permanent">Add today's assigments</h4>
+        </div>
+        <div id="taskBox" class="pb-10">
+            <!-- <h2>TASKS:</h2> -->
+            <ul id="taskList" class="flex flex-col justify-center items-center gap-1 text-xl">
+                <li class="line-through">asdasddddddddddddddddddddd<img src="../dist/bin.png" class="w-5"></li>
+            </ul>
+        </div>
+        <form action="" class="flex flex-col items-center">
+            <input type="text" placeholder="type task you have to do"
+                class="w-80 h-10 text-center border-2 border-black mb-5" id="inputBox" required>
+            <button class="w-32 h-8 border-2 border-black" id="buttonBox" onclick="saveTask(event)">Add task</button>
+            <small id="errorBox" class="hidden pt-3"></small>
+
+        </form>
+
+    </div>
+</body>
+
+</html>
