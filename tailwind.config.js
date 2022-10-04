@@ -5,6 +5,7 @@ module.exports = {
     extend: {
       fontFamily: {
         permanent: ["Permanent Marker", "sans-serif"],
+        sora: ["Sora"],
       },
     },
   },

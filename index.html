@@ -8,6 +8,8 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;700&display=swap" rel="stylesheet">
+
     <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="./dist/output.css">
@@ -26,15 +28,16 @@
         </div>
         <div id="taskBox" class="pb-10">
             <!-- <h2>TASKS:</h2> -->
-            <ul id="taskList" class="flex flex-col justify-center items-center gap-1 text-xl">
+            <ul id="taskList" class="flex flex-col justify-center items-center gap-1 text-xl font-sora">
                 <li class="line-through">asdasddddddddddddddddddddd<img src="../dist/bin.png" class="w-5"></li>
             </ul>
         </div>
         <form action="" class="flex flex-col items-center">
             <input type="text" placeholder="type task you have to do"
-                class="w-80 h-10 text-center border-2 border-black mb-5" id="inputBox" required>
-            <button class="w-32 h-8 border-2 border-black" id="buttonBox" onclick="saveTask(event)">Add task</button>
-            <small id="errorBox" class="hidden pt-3"></small>
+                class="w-80 h-10 text-center border-2 border-black mb-5 font-sora" id="inputBox" required>
+            <button class="w-32 h-8 border-2 border-black font-sora" id="buttonBox" onclick="saveTask(event)">Add
+                task</button>
+            <small id="errorBox" class="hidden pt-3 text-red-600"></small>
 
         </form>
 

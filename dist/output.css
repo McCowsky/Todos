@@ -654,6 +654,10 @@ video {
   font-family: Permanent Marker, sans-serif;
 }
 
+.font-sora {
+  font-family: Sora;
+}
+
 .text-8xl {
   font-size: 6rem;
   line-height: 1;
@@ -664,14 +668,9 @@ video {
   line-height: 1.75rem;
 }
 
-.text-lg {
-  font-size: 1.125rem;
-  line-height: 1.75rem;
-}
-
-.text-4xl {
-  font-size: 2.25rem;
-  line-height: 2.5rem;
+.text-red-600 {
+  --tw-text-opacity: 1;
+  color: rgb(220 38 38 / var(--tw-text-opacity));
 }
 
 .line-through {
