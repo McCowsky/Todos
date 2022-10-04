@@ -1,3 +1,8 @@
+type Task_Type = {
+  text: string;
+  done: boolean;
+};
+
 const inputBox = document.getElementById("inputBox") as HTMLInputElement | null;
 const buttonBox = document.getElementById(
   "buttonBox"
@@ -9,14 +14,6 @@ const errorBox = document.getElementById("errorBox") as HTMLDivElement | null;
 
 const taskArray = JSON.parse(localStorage.getItem("taskArray") || "[]");
 
-if (taskArray.length === 0) {
-  logoBox?.classList.remove("hidden");
-  taskBox?.classList.add("hidden");
-} else {
-  logoBox?.classList.add("hidden");
-  taskBox?.classList.remove("hidden");
-}
-
 const saveTask = (event: Event) => {
   event.preventDefault();
   let task = {
@@ -26,7 +23,7 @@ const saveTask = (event: Event) => {
   if (checkTask()) {
     if (inputBox != null) taskArray.push(task);
     localStorage.setItem("taskArray", JSON.stringify(taskArray));
-    window.location.reload();
+    renderTaskList();
   }
 };
 
@@ -34,15 +31,17 @@ const deleteTask = (event: Event) => {
   event.preventDefault();
   const textToDelete: string = (event.target as HTMLInputElement).parentElement
     ?.parentElement?.innerText!;
-  const indexToDelete = taskArray.findIndex((x: any) => x.text == textToDelete);
+  const indexToDelete = taskArray.findIndex(
+    (x: Task_Type) => x.text == textToDelete
+  );
   taskArray.splice(indexToDelete, 1);
   localStorage.setItem("taskArray", JSON.stringify(taskArray));
-  window.location.reload();
+  renderTaskList();
 };
 
 const markDone = (event: Event) => {
   const indexToMark = taskArray.findIndex(
-    (x: any) =>
+    (x: Task_Type) =>
       x.text == (event.target as HTMLLIElement).parentElement?.innerText
   );
   taskArray[indexToMark].done === false
@@ -55,17 +54,29 @@ const markDone = (event: Event) => {
   localStorage.setItem("taskArray", JSON.stringify(taskArray));
 };
 
-if (taskList != null) {
-  taskList.innerHTML = taskArray
-    .map((task: any) => {
-      if (task.done === false) {
-        return `<li class="flex justify-center items-center gap-3"><input type="checkbox" name='test' onclick="markDone(event)">${task.text} <button onclick="deleteTask(event)"><img src="../dist/bin.png" class="w-5"></button></li>`;
-      } else {
-        return `<li class="flex justify-center items-center gap-3 line-through"><input type="checkbox" checked name='test' onclick="markDone(event)">${task.text} <button onclick="deleteTask(event)"><img src="../dist/bin.png" class="w-5"></button></li>`;
-      }
-    })
-    .join("");
-}
+const renderTaskList = () => {
+  if (taskArray.length === 0) {
+    logoBox?.classList.remove("hidden");
+    taskBox?.classList.add("hidden");
+  } else {
+    logoBox?.classList.add("hidden");
+    taskBox?.classList.remove("hidden");
+  }
+
+  if (taskList != null) {
+    taskList.innerHTML = taskArray
+      .map((task: Task_Type) => {
+        if (task.done === false) {
+          return `<li class="flex justify-center items-center gap-3"><input type="checkbox" name='test' onclick="markDone(event)">${task.text} <button onclick="deleteTask(event)"><img src="../dist/bin.png" class="w-5"></button></li>`;
+        } else {
+          return `<li class="flex justify-center items-center gap-3 line-through"><input type="checkbox" checked name='test' onclick="markDone(event)">${task.text} <button onclick="deleteTask(event)"><img src="../dist/bin.png" class="w-5"></button></li>`;
+        }
+      })
+      .join("");
+  }
+};
+
+renderTaskList();
 
 // FORM VALIDATION
 
@@ -92,11 +103,13 @@ const checkTask = () => {
 
   if (!isRequired(taskValue)) {
     showError("Task cannot be empty");
-  } else if (!isBetween(taskValue.length, MIN, MAX)) {
-    showError(`Task must be between ${MIN} and ${MAX} characters`);
-  } else {
-    showSuccess;
-    valid = true;
+    return false;
   }
-  return valid;
+  if (!isBetween(taskValue.length, MIN, MAX)) {
+    showError(`Task must be between ${MIN} and ${MAX} characters`);
+    return false;
+  }
+
+  showSuccess;
+  return true;
 };

@@ -34,8 +34,10 @@
         </div>
         <form action="" class="flex flex-col items-center">
             <input type="text" placeholder="type task you have to do"
-                class="w-80 h-10 text-center border-2 border-black mb-5 font-sora" id="inputBox" required>
-            <button class="w-32 h-8 border-2 border-black font-sora" id="buttonBox" onclick="saveTask(event)">Add
+                class="w-80 h-10 text-center border-2 border-black mb-5 font-sora focus:bg-[#009FFD] placeholder:focus:text-white"
+                id="inputBox" required>
+            <button class="w-32 h-8 border-2 border-black font-sora hover:bg-[#009FFD] hover:text-white" id="buttonBox"
+                onclick="saveTask(event)">Add
                 task</button>
             <small id="errorBox" class="hidden pt-3 text-red-600"></small>
 

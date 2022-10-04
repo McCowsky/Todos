@@ -6,14 +6,6 @@ const logoBox = document.getElementById("logoBox");
 const taskBox = document.getElementById("taskBox");
 const errorBox = document.getElementById("errorBox");
 const taskArray = JSON.parse(localStorage.getItem("taskArray") || "[]");
-if (taskArray.length === 0) {
-    logoBox === null || logoBox === void 0 ? void 0 : logoBox.classList.remove("hidden");
-    taskBox === null || taskBox === void 0 ? void 0 : taskBox.classList.add("hidden");
-}
-else {
-    logoBox === null || logoBox === void 0 ? void 0 : logoBox.classList.add("hidden");
-    taskBox === null || taskBox === void 0 ? void 0 : taskBox.classList.remove("hidden");
-}
 const saveTask = (event) => {
     event.preventDefault();
     let task = {
@@ -24,7 +16,7 @@ const saveTask = (event) => {
         if (inputBox != null)
             taskArray.push(task);
         localStorage.setItem("taskArray", JSON.stringify(taskArray));
-        window.location.reload();
+        renderTaskList();
     }
 };
 const deleteTask = (event) => {
@@ -34,7 +26,7 @@ const deleteTask = (event) => {
     const indexToDelete = taskArray.findIndex((x) => x.text == textToDelete);
     taskArray.splice(indexToDelete, 1);
     localStorage.setItem("taskArray", JSON.stringify(taskArray));
-    window.location.reload();
+    renderTaskList();
 };
 const markDone = (event) => {
     var _a;
@@ -45,18 +37,29 @@ const markDone = (event) => {
     (_a = event.target.parentElement) === null || _a === void 0 ? void 0 : _a.classList.toggle("line-through");
     localStorage.setItem("taskArray", JSON.stringify(taskArray));
 };
-if (taskList != null) {
-    taskList.innerHTML = taskArray
-        .map((task) => {
-        if (task.done === false) {
-            return `<li class="flex justify-center items-center gap-3"><input type="checkbox" name='test' onclick="markDone(event)">${task.text} <button onclick="deleteTask(event)"><img src="../dist/bin.png" class="w-5"></button></li>`;
-        }
-        else {
-            return `<li class="flex justify-center items-center gap-3 line-through"><input type="checkbox" checked name='test' onclick="markDone(event)">${task.text} <button onclick="deleteTask(event)"><img src="../dist/bin.png" class="w-5"></button></li>`;
-        }
-    })
-        .join("");
-}
+const renderTaskList = () => {
+    if (taskArray.length === 0) {
+        logoBox === null || logoBox === void 0 ? void 0 : logoBox.classList.remove("hidden");
+        taskBox === null || taskBox === void 0 ? void 0 : taskBox.classList.add("hidden");
+    }
+    else {
+        logoBox === null || logoBox === void 0 ? void 0 : logoBox.classList.add("hidden");
+        taskBox === null || taskBox === void 0 ? void 0 : taskBox.classList.remove("hidden");
+    }
+    if (taskList != null) {
+        taskList.innerHTML = taskArray
+            .map((task) => {
+            if (task.done === false) {
+                return `<li class="flex justify-center items-center gap-3"><input type="checkbox" name='test' onclick="markDone(event)">${task.text} <button onclick="deleteTask(event)"><img src="../dist/bin.png" class="w-5"></button></li>`;
+            }
+            else {
+                return `<li class="flex justify-center items-center gap-3 line-through"><input type="checkbox" checked name='test' onclick="markDone(event)">${task.text} <button onclick="deleteTask(event)"><img src="../dist/bin.png" class="w-5"></button></li>`;
+            }
+        })
+            .join("");
+    }
+};
+renderTaskList();
 // FORM VALIDATION
 const isRequired = (value) => (value === "" ? false : true);
 const isBetween = (length, min, max) => length < min || length > max ? false : true;
@@ -77,13 +80,12 @@ const checkTask = () => {
     const taskValue = inputBox.value.trim();
     if (!isRequired(taskValue)) {
         showError("Task cannot be empty");
+        return false;
     }
-    else if (!isBetween(taskValue.length, MIN, MAX)) {
+    if (!isBetween(taskValue.length, MIN, MAX)) {
         showError(`Task must be between ${MIN} and ${MAX} characters`);
+        return false;
     }
-    else {
-        showSuccess;
-        valid = true;
-    }
-    return valid;
+    showSuccess;
+    return true;
 };
