@@ -47,16 +47,40 @@ const renderTaskList = () => {
         taskBox === null || taskBox === void 0 ? void 0 : taskBox.classList.remove("hidden");
     }
     if (taskList != null) {
-        taskList.innerHTML = taskArray
-            .map((task) => {
+        taskList.innerHTML = "";
+        taskArray.forEach((task) => {
+            const li = document.createElement("li");
+            li.classList.add("flex", "justify-center", "items-center", "gap-3");
+            const input = document.createElement("input");
+            input.type = "checkbox";
+            const button = document.createElement("button");
+            button.addEventListener("click", deleteTask);
+            // const img = document.createElement("img");
+            // img.src = "../dist/bin.png";
+            // img.classList.add("w-5");
+            // button.appendChild(img);
+            const i = document.createElement("i");
+            i.classList.add("fa", "fa-trash", "fa-regular");
+            button.appendChild(i);
+            input.addEventListener("click", markDone);
+            const text = document.createElement("span");
             if (task.done === false) {
-                return `<li class="flex justify-center items-center gap-3"><input type="checkbox" name='test' onclick="markDone(event)">${task.text} <button onclick="deleteTask(event)"><img src="../dist/bin.png" class="w-5"></button></li>`;
+                li.appendChild(input);
+                text.innerText = task.text;
+                li.appendChild(text);
+                li.appendChild(button);
+                taskList.appendChild(li);
             }
             else {
-                return `<li class="flex justify-center items-center gap-3 line-through"><input type="checkbox" checked name='test' onclick="markDone(event)">${task.text} <button onclick="deleteTask(event)"><img src="../dist/bin.png" class="w-5"></button></li>`;
+                input.checked = true;
+                li.classList.add("line-through");
+                li.appendChild(input);
+                text.innerText = task.text;
+                li.appendChild(text);
+                li.appendChild(button);
+                taskList.appendChild(li);
             }
-        })
-            .join("");
+        });
     }
 };
 renderTaskList();

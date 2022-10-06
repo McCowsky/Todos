@@ -1,4 +1,4 @@
-type Task_Type = {
+type Task = {
   text: string;
   done: boolean;
 };
@@ -32,7 +32,7 @@ const deleteTask = (event: Event) => {
   const textToDelete: string = (event.target as HTMLInputElement).parentElement
     ?.parentElement?.innerText!;
   const indexToDelete = taskArray.findIndex(
-    (x: Task_Type) => x.text == textToDelete
+    (x: Task) => x.text == textToDelete
   );
   taskArray.splice(indexToDelete, 1);
   localStorage.setItem("taskArray", JSON.stringify(taskArray));
@@ -41,7 +41,7 @@ const deleteTask = (event: Event) => {
 
 const markDone = (event: Event) => {
   const indexToMark = taskArray.findIndex(
-    (x: Task_Type) =>
+    (x: Task) =>
       x.text == (event.target as HTMLLIElement).parentElement?.innerText
   );
   taskArray[indexToMark].done === false
@@ -64,15 +64,36 @@ const renderTaskList = () => {
   }
 
   if (taskList != null) {
-    taskList.innerHTML = taskArray
-      .map((task: Task_Type) => {
-        if (task.done === false) {
-          return `<li class="flex justify-center items-center gap-3"><input type="checkbox" name='test' onclick="markDone(event)">${task.text} <button onclick="deleteTask(event)"><img src="../dist/bin.png" class="w-5"></button></li>`;
-        } else {
-          return `<li class="flex justify-center items-center gap-3 line-through"><input type="checkbox" checked name='test' onclick="markDone(event)">${task.text} <button onclick="deleteTask(event)"><img src="../dist/bin.png" class="w-5"></button></li>`;
-        }
-      })
-      .join("");
+    taskList.innerHTML = "";
+    taskArray.forEach((task: Task) => {
+      const li = document.createElement("li");
+      li.classList.add("flex", "justify-center", "items-center", "gap-3");
+      const input = document.createElement("input");
+      input.type = "checkbox";
+      const button = document.createElement("button");
+      button.addEventListener("click", deleteTask);
+      const i = document.createElement("i");
+      i.classList.add("fa", "fa-trash", "fa-regular");
+      button.appendChild(i);
+      input.addEventListener("click", markDone);
+      const text = document.createElement("span");
+
+      if (task.done === false) {
+        li.appendChild(input);
+        text.innerText = task.text;
+        li.appendChild(text);
+        li.appendChild(button);
+        taskList.appendChild(li);
+      } else {
+        input.checked = true;
+        li.classList.add("line-through");
+        li.appendChild(input);
+        text.innerText = task.text;
+        li.appendChild(text);
+        li.appendChild(button);
+        taskList.appendChild(li);
+      }
+    });
   }
 };
 
